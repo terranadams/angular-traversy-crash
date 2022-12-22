@@ -41,6 +41,10 @@ export class TaskService {
     return this.http.put<Task>(url, task, httpOptions) // we're sending data, so we want to send headers with the content type.
   }
 
+  addTask(task: Task):Observable<Task> {
+    return this.http.post<Task>(this.url, task, httpOptions) // we're submitting data, so we use httpOptions
+  }
+
 
   /*
   To run api calls, import { HttpClientModule } from '@angular/common/http' in app.module.ts

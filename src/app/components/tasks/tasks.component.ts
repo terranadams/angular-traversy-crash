@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
 import { Task } from 'src/app/interfaces/Task';
 
-
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -26,6 +25,11 @@ export class TasksComponent {
     // console.log(task.reminder)
     task.reminder = !task.reminder // just modifying the task before sending it to update the API
     this.taskService.updateTaskReminder(task).subscribe()
+  }
+
+  addTask(task: Task) {
+    // console.log(task)
+    this.taskService.addTask(task).subscribe(task => this.tasks.push(task))
   }
 
 }
