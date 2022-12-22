@@ -1,4 +1,8 @@
 <header>
-  <h1>{{title}}</h1>
-  <app-button color="green" text="Add Task" (click)="toggleAddTask()"></app-button>
+  <h1>{{ title }}</h1>
+  <app-button
+    color="{{ showAddTask ? 'red' : 'green' }}"
+    text="{{ showAddTask ? 'Close' : 'Add' }}"
+    (click)="toggleAddTask()"
+  ></app-button>
 </header>

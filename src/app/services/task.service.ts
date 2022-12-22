@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http' // HttpClientModu
 import { Task } from '../interfaces/Task';
 import { TASKS } from '../mock-tasks';
 import { Observable, of } from 'rxjs';
+import { TasksComponent } from '../components/tasks/tasks.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,6 +18,8 @@ const httpOptions = {
   The first command spins up the backend api as described in https://www.npmjs.com/package/json-server which the front end draws tasks from (this was an added script to package.json line 10
   The api is powered by the npm package json-server, which turns our db.json file in the root folder into an api we can run api calls at locally to the hostname "localhost:5000/tasks"
   */
+
+  // all these calls get ran in TasksComponent
 
 @Injectable({
   providedIn: 'root'
