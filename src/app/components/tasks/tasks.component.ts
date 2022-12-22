@@ -20,6 +20,12 @@ export class TasksComponent {
   deleteTask(task: Task) {
     // console.log(task)
     this.taskService.deleteTask(task).subscribe(() => this.tasks = this.tasks.filter(t => t.id !== task.id))
+  } // the call is made without this callback func, but this callback func updates the UI with the proper data
+
+  toggleReminder(task: Task) {
+    // console.log(task.reminder)
+    task.reminder = !task.reminder // just modifying the task before sending it to update the API
+    this.taskService.updateTaskReminder(task).subscribe()
   }
 
 }

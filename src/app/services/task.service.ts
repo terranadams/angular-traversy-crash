@@ -4,6 +4,12 @@ import { Task } from '../interfaces/Task';
 import { TASKS } from '../mock-tasks';
 import { Observable, of } from 'rxjs';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+}
+
 // https://github.com/bradtraversy/angular-crash-2021
 
   /*
@@ -24,6 +30,18 @@ export class TaskService {
     // const tasks = of(TASKS) ; return tasks // This would turn our TASKS import thing into an observable, even though it's not an API call. We'll never use this.
     return this.http.get<Task[]>(this.url)
   }
+
+  deleteTask(task: Task): Observable<Task> {
+    const url = `${this.url}/${task.id}`
+    return this.http.delete<Task>(url) // This deletes a task from the api, but the page still must be re-rendered to reflect the change. We get around this in the call back where the call is ran (tasks.component)
+  }
+
+  updateTaskReminder(task: Task): Observable<Task> {
+    const url = `${this.url}/${task.id}`
+    return this.http.put<Task>(url, task, httpOptions) // we're sending data, so we want to send headers with the content type.
+  }
+
+
   /*
   To run api calls, import { HttpClientModule } from '@angular/common/http' in app.module.ts
   add HttpClientModule to imports array, then import into this service file ---> import { HttpClient } from '@angular/common/http'
@@ -39,9 +57,5 @@ export class TaskService {
   Then in the component.ts file of where you want to execute the call, import the service and define it in the constructor(private task:TaskService)
   and then use this.taskService.getTasks().subscribe(data => console.log(data)) in the ngOnInit curleys or in another method
   */
-  deleteTask(task: Task): Observable<Task> {
-    const url = `${this.url}/${task.id}`
-    return this.http.delete<Task>(url) // This deletes a task from the api, but the page still must be re-rendered to reflect the change. We get around this in the call back where the call is ran (tasks.component)
-  }
 }
 
