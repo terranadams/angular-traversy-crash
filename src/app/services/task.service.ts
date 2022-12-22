@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http' // HttpClientModule needs to be added to the modules array in app.modules.ts
 import { Task } from '../interfaces/Task';
 import { TASKS } from '../mock-tasks';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
+  url = "http://localhost:5000/tasks"
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getTasks(): Task[] { // api calls return an Observable by default
-    return TASKS
+  getTasks(): Observable<Task[]> { // api calls return an Observable by default anyway
+    // const tasks = of(TASKS) ; return tasks // This would turn our TASKS import thing into an observable, even though it's not an API call.
+    return this.http.get<Task[]>(this.url)
   }
 
   /*

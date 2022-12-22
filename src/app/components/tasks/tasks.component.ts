@@ -9,12 +9,12 @@ import { Task } from 'src/app/interfaces/Task';
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent {
+  tasks: Task[] = []
 
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.tasks = this.taskService.getTasks() // remember to use the 'this' keyword with classes
+    this.taskService.getTasks().subscribe(tasks => this.tasks = tasks)
   }
 
-  tasks: Task[] = []
 }
