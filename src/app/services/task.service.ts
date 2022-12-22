@@ -4,18 +4,7 @@ import { Task } from '../interfaces/Task';
 import { TASKS } from '../mock-tasks';
 import { Observable, of } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class TaskService {
-  url = "http://localhost:5000/tasks"
-
-  constructor(private http: HttpClient) { }
-
-  getTasks(): Observable<Task[]> { // api calls return an Observable by default anyway
-    // const tasks = of(TASKS) ; return tasks // This would turn our TASKS import thing into an observable, even though it's not an API call.
-    return this.http.get<Task[]>(this.url)
-  }
+// https://github.com/bradtraversy/angular-crash-2021
 
   /*
   This project can only work if you run 'npm run server' in another termal window (root directory) before running 'ng serve'.
@@ -23,6 +12,18 @@ export class TaskService {
   The api is powered by the npm package json-server, which turns our db.json file in the root folder into an api we can run api calls at locally to the hostname "localhost:5000/tasks"
   */
 
+@Injectable({
+  providedIn: 'root'
+})
+export class TaskService {
+  url = "http://localhost:3000/tasks" // had to switch to port 3000 due to the AirPlay receiver in Mac OS Monterey using port 5000.
+
+  constructor(private http: HttpClient) { }
+
+  getTasks(): Observable<Task[]> { // api calls return an Observable by default anyway
+    // const tasks = of(TASKS) ; return tasks // This would turn our TASKS import thing into an observable, even though it's not an API call. We'll never use this.
+    return this.http.get<Task[]>(this.url)
+  }
   /*
   To run api calls, import { HttpClientModule } from '@angular/common/http' in app.module.ts
   add HttpClientModule to imports array, then import into this service file ---> import { HttpClient } from '@angular/common/http'
@@ -38,4 +39,9 @@ export class TaskService {
   Then in the component.ts file of where you want to execute the call, import the service and define it in the constructor(private task:TaskService)
   and then use this.taskService.getTasks().subscribe(data => console.log(data)) in the ngOnInit curleys or in another method
   */
+  deleteTask(task: Task): Observable<Task> {
+    const url = `${this.url}/${task.id}`
+    return this.http.delete<Task>(url) // This deletes a task from the api, but the page still must be re-rendered to reflect the change. We get around this in the call back where the call is ran (tasks.component)
+  }
 }
+
