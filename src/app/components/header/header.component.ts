@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { Subscription } from 'rxjs'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,10 @@ export class HeaderComponent {
   showAddTask!: boolean
   subscription: Subscription
 
-  constructor(private uiService:UiService) {
+  constructor(private uiService:UiService, private router:Router) {
     this.subscription = this.uiService.onToggle().subscribe(value => this.showAddTask = value)
     // we're setting the value in this component to whatever the value is in the service after it got changed.
-  
+
   }
 
   toggleAddTask() {
@@ -23,5 +24,9 @@ export class HeaderComponent {
     // we could've just updated the value within this method,
     // but we want other components to see the change as well, which is why we're using a service.
     // so we request to listen to it in the constructor of this file
+  }
+
+  hasRoute(route: string) {
+    return this.router.url === route // this'll be a boolean for the button to check
   }
 }
